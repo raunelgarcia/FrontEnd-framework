@@ -1,15 +1,15 @@
 package pages;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import java.time.temporal.ChronoUnit;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.commonFWUtils.MobilePage;
 
 public class elPais extends MobilePage {
 
   @AndroidFindBy(id = "com.elpais.elpais:id/title")
+  @iOSXCUITFindBy(xpath = "(//XCUIElementTypeCell)[1]")
   WebElement title;
 
   @AndroidFindBy(xpath = "(//*[@class='android.widget.Button'])[1]")
@@ -20,11 +20,11 @@ public class elPais extends MobilePage {
   }
 
   public void clickSpain() {
-   waitForVisibility(title);
+    waitForVisibility(title);
     title.click();
   }
 
-  public void handlePopout() {
+  public void clickhandlePopout() {
     waitForVisibility(popout);
     popout.click();
   }
