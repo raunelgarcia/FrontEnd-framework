@@ -9,7 +9,7 @@ import pages.commonFWUtils.MobilePage;
 public class elPais extends MobilePage {
 
   @AndroidFindBy(id = "com.elpais.elpais:id/title")
-  @iOSXCUITFindBy(xpath = "(//XCUIElementTypeCell)[1]")
+  @iOSXCUITFindBy(accessibility = "LandingLoginButton")
   WebElement title;
 
   @AndroidFindBy(xpath = "(//*[@class='android.widget.Button'])[1]")
