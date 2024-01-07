@@ -1,18 +1,26 @@
 package pages.commonFWUtils;
 
-import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.lang.Math.floor;
 import static java.lang.Math.max;
+import static java.lang.String.valueOf;
 import static java.lang.Thread.sleep;
 import static java.time.Duration.ZERO;
 import static java.time.Duration.ofMillis;
+import static org.openqa.selenium.interactions.PointerInput.MouseButton.LEFT;
+import static org.openqa.selenium.interactions.PointerInput.Origin.viewport;
+import static org.openqa.selenium.mobile.NetworkConnection.ConnectionType.ALL;
+import static org.openqa.selenium.mobile.NetworkConnection.ConnectionType.NONE;
+import static org.openqa.selenium.mobile.NetworkConnection.ConnectionType.WIFI;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.function.Supplier;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -20,9 +28,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Pause;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.PointerInput.Kind;
-import org.openqa.selenium.interactions.PointerInput.MouseButton;
-import org.openqa.selenium.interactions.PointerInput.Origin;
 import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.mobile.NetworkConnection;
+import org.openqa.selenium.remote.mobile.RemoteNetworkConnection;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.Direction;
@@ -79,6 +87,38 @@ public abstract class MobilePage extends BasePageClass {
 
   public IOSDriver getIOSDriver() {
     return (IOSDriver) getDriver();
+  }
+
+  public void disableWifi() {
+    simulateNetworkType(NONE);
+  }
+
+  public void enableWifi() {
+    simulateNetworkType(WIFI);
+  }
+
+  public void enableNetwork() {
+    simulateNetworkType(ALL);
+  }
+
+  public void simulateNetworkType(NetworkConnection.ConnectionType connectionType) {
+    System.out.printf("Simulating network connection type: %s%n", connectionType.toString());
+
+    String browser = LocalEnvironment.getAppPlatform();
+    if (browser.equals("ANDROID") || browser.equals("IOS")) {
+      AppiumDriver appium = (AppiumDriver) getDriver();
+      RemoteNetworkConnection networkConnection =
+          new RemoteNetworkConnection(appium.getExecuteMethod());
+      networkConnection.setNetworkConnection(connectionType);
+    }
+  }
+
+  public void type(WebElement element, String text, boolean cleanFirst) {
+    waitForVisibility(element);
+    if (cleanFirst) {
+      element.clear();
+    }
+    element.sendKeys(text);
   }
 
   public void swipe(Direction direction) {
@@ -174,6 +214,62 @@ public abstract class MobilePage extends BasePageClass {
     waitForAnimationToFinish();
   }
 
+  public static <T> T doWithTryCatch(Supplier<T> action, T otherWise) {
+    try {
+      return action.get();
+    } catch (RuntimeException var3) {
+      return otherWise;
+    }
+  }
+
+  public static <T extends WebElement> boolean isVisible(final T e) {
+    return doWithTryCatch(e::isDisplayed, false);
+  }
+
+  public void scrollToElement(WebElement element, Direction direction, boolean minScroll) {
+    long start = System.currentTimeMillis();
+    long timeout = 45L;
+    while (!isVisible(element) && System.currentTimeMillis() - start < timeout) {
+      swipe(direction, 0.4, minScroll ? 0.5 : 0.6);
+    }
+  }
+
+  public void performAction(Collection<Sequence> actions) {
+    if (isAndroid()) getAndroidDriver().perform(actions);
+    else getIOSDriver().perform(actions);
+  }
+
+  protected void tap(WebElement element) {
+    waitForVisibility(element);
+    System.out.printf("Tapping on [%s]", element.toString());
+    Sequence tap = new Sequence(FINGER, 1);
+    tap.addAction(
+        FINGER.createPointerMove(
+            Duration.ofMillis(0), viewport(), element.getLocation().x, element.getLocation().y));
+    tap.addAction(FINGER.createPointerDown(LEFT.asArg()));
+    tap.addAction(FINGER.createPointerUp(LEFT.asArg()));
+    tap.addAction(FINGER.createPointerUp(LEFT.asArg()));
+
+    performAction(Collections.singletonList(tap));
+  }
+
+  protected void tap(int x, int y) {
+    System.out.printf("Tapping at (%s,%s)", valueOf(x), valueOf(y));
+
+    Sequence tap = new Sequence(FINGER, 1);
+    tap.addAction(FINGER.createPointerMove(Duration.ofMillis(0), viewport(), x, y));
+    tap.addAction(FINGER.createPointerDown(LEFT.asArg()));
+    tap.addAction(FINGER.createPointerUp(LEFT.asArg()));
+    tap.addAction(FINGER.createPointerUp(LEFT.asArg()));
+
+    performAction(Collections.singletonList(tap));
+  }
+
+  public void tapBack() {
+    System.out.println("Going back");
+    getDriver().navigate().back();
+  }
+
   public static class W3cActions {
 
     public static void swipe(AppiumDriver driver, Point start, Point end, int duration) {
@@ -181,13 +277,12 @@ public abstract class MobilePage extends BasePageClass {
       Sequence swipe =
           new Sequence(FINGER, 1)
               .addAction(
-                  FINGER.createPointerMove(
-                      ofMillis(0), Origin.viewport(), start.getX(), start.getY()))
-              .addAction(FINGER.createPointerDown(MouseButton.LEFT.asArg()))
+                  FINGER.createPointerMove(ofMillis(0), viewport(), start.getX(), start.getY()))
+              .addAction(FINGER.createPointerDown(LEFT.asArg()))
               .addAction(
                   FINGER.createPointerMove(
-                      ofMillis(duration), Origin.viewport(), start.getX(), start.getY()))
-              .addAction(FINGER.createPointerDown(MouseButton.LEFT.asArg()));
+                      ofMillis(duration), viewport(), start.getX(), start.getY()))
+              .addAction(FINGER.createPointerDown(LEFT.asArg()));
       driver.perform(Collections.singletonList(swipe));
     }
 
@@ -196,11 +291,10 @@ public abstract class MobilePage extends BasePageClass {
       Sequence tap =
           new Sequence(FINGER, 1)
               .addAction(
-                  FINGER.createPointerMove(
-                      ofMillis(0), Origin.viewport(), point.getX(), point.getY()))
-              .addAction(FINGER.createPointerDown(MouseButton.LEFT.asArg()))
+                  FINGER.createPointerMove(ofMillis(0), viewport(), point.getX(), point.getY()))
+              .addAction(FINGER.createPointerDown(LEFT.asArg()))
               .addAction(new Pause(FINGER, ofMillis(duration)))
-              .addAction(FINGER.createPointerDown(MouseButton.LEFT.asArg()));
+              .addAction(FINGER.createPointerDown(LEFT.asArg()));
       driver.perform(Collections.singletonList(tap));
     }
   }
