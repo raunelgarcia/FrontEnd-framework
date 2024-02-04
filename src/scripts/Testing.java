@@ -7,15 +7,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.WebDriver;
+import pages.Direction;
 import pages.elPais;
 
-public class Testing extends DriverConfig{
-  private WebDriver driver;
+public class Testing extends DriverConfig {
+  private AppiumDriver driver;
 
   @Before
   public void init() {
-   MutableCapabilities capabilities=generateCapabilities();
+    MutableCapabilities capabilities = generateCapabilities();
     try {
       // URL del servidor Appium
       URL appiumServerURL = new URL("http://localhost:4723/wd/hub");
@@ -28,11 +28,14 @@ public class Testing extends DriverConfig{
   @Test
   public void pruebaAppium() {
     elPais pais = new elPais(driver);
+    for (int i = 0; i < 3; i++) {
+      pais.swipe(Direction.UP, driver);
+    }
     pais.clickSpain();
   }
 
   @After
-  public void quit(){
+  public void quit() {
     driver.quit();
   }
 }

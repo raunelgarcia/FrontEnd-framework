@@ -64,6 +64,10 @@ public class LocalEnvironment  {
     return !value.isEmpty();
   }
 
+  public static boolean isAndroid() {
+    return "ANDROID".equalsIgnoreCase(LocalEnvironment.getAppPlatform());
+  }
+
   public static Boolean isMobile() {
     String platformMobile = getAppPlatform();
     return "ANDROID".equalsIgnoreCase(platformMobile) || "AND".equalsIgnoreCase(platformMobile) || "IOS".equalsIgnoreCase(platformMobile);
