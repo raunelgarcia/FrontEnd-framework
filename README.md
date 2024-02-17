@@ -24,7 +24,7 @@ Navigate to the directory where you cloned the repository and select it.
 
 For running web tests, set the environment variable PLATFORM to web.
 For running mobile tests, set the environment variable PLATFORM to mobile.
-You can set environment variables in IntelliJ IDEA by going to Run > Edit Configurations > Configuration > Environment.
+You can set environment variables in IntelliJ IDEA by going to Run > Edit Configurations > Add JUNIT Configuration > Environment.
 
 ### Install Dependencies:
 
