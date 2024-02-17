@@ -1,6 +1,6 @@
 ### Web and Mobile Automated Testing Repository
 
-This repository contains automated tests for both web and mobile applications. With the use of environment variables in IntelliJ IDEA, you can easily switch between running tests for web or mobile platforms.
+This repository contains automated tests for both web and mobile applications. With the use of environment variables in IntelliJ IDEA, you can easily switch between running tests for web or mobile platforms. Also is integrated with axe-core tools to easily check web accessibility violations while running an automated web script.
 
 ### Getting Started
 To set up your local environment and install dependencies for running the tests, follow these steps:
