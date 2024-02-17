@@ -44,6 +44,7 @@ You can now run the automated tests either for web or mobile platforms based on 
 
 ### Test Structure
 src/test/java contains all the test classes.
+
 src/test/resources contains apks.
 
 ### Contributors
