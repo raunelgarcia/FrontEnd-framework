@@ -5,11 +5,38 @@ This repository contains automated tests for both web and mobile applications. W
 ### Getting Started
 To set up your local environment and install dependencies for running the tests, follow these steps:
 
-### Prerequisites
+### Pre-requisites
 Ensure you have IntelliJ IDEA installed on your system.
-Make sure you have Maven installed.
+Make sure you have Maven installed and Java jdk 11 or superior.
 
-### Installation Steps
+### Setting Up Appium Environment
+
+Step 1: Install Node.js
+Appium runs on Node.js. If you don't already have Node.js installed, download and install it from https://nodejs.org/en/download.
+
+Step 2: Install Appium
+
+Install Appium globally using npm (Node Package Manager). Open your terminal or command prompt and run the following command: 
+
+npm install -g appium
+
+Step 3: Install Appium Dependencies
+
+Appium has specific dependencies for different mobile development platforms. Install the necessary dependencies based on the platform you want to automate tests for.
+
+### Android
+Install Android Studio following the instructions on https://developer.android.com/studio/install.
+Set up ANDROID_HOME and JAVA_HOME environment variables correctly.
+
+Step 4: Set Up Emulators or Physical Devices
+
+Use Virtual Device Manager tool from Android Studio to start a customized Android emulator
+
+Step 5: Start Appium Server
+
+Run on terminal the command: appium to start appium server
+
+### IDE Configuration Steps
 Clone the Repository:
 
 git clone https://github.com/raunelgarcia/mobile-framework.git
@@ -22,9 +49,13 @@ Navigate to the directory where you cloned the repository and select it.
 
 ### Set Environment Variables:
 
-For running web tests, set the environment variable PLATFORM to web.
-For running mobile tests, set the environment variable PLATFORM to mobile.
 You can set environment variables in IntelliJ IDEA by going to Run > Edit Configurations > Add JUNIT Configuration > Environment.
+
+### Android Variables
+AppActivity=xxx;AppPackage=xxxx;Platform=Android;Udid=xxxx
+
+### Web Variables
+Accessibility=true;Platform=Web;Url=https://www.xxxx.com/
 
 ### Install Dependencies:
 
