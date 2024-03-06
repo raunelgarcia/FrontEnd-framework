@@ -24,7 +24,7 @@ public class AmazonSteps {
     @Before
     public void start() {
         DriverConfiguration configuration = new DriverConfiguration();
-        WebDriver driver = configuration.getDriver();
+        driver = configuration.getDriver();
         controller = new Amazon(driver);
         controller.acceptCookies();
     }
