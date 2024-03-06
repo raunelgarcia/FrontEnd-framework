@@ -1,4 +1,4 @@
-Feature: Amazon basic features
+Feature: Basic features
 
   Scenario Outline: Product search
     Given I am on the Amazon website
@@ -9,3 +9,4 @@ Feature: Amazon basic features
       |a product|product page|
       |Bolso    |Amazon.es : Bolso|
       |Cargador |Amazon.es : Cargador|
+
