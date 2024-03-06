@@ -2,7 +2,6 @@ package pages;
 import static strategies.VisibilityStrategy.isVisible;
 import java.time.Duration;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +13,18 @@ public class Amazon {
 
     @FindBy(id = "twotabsearchtextbox")
     WebElement searchBar;
+
+    @FindBy(xpath = "//*[@id=\"search\"]/div[1]/div[1]/div/span[1]/div[1]/div[7]/div/div/span/div")
+    WebElement randomProduct;
+
+    @FindBy(xpath = "//*[@id=\"activeCartViewForm\"]/div[2]")
+    WebElement productInCart;
+
+    @FindBy(id = "add-to-cart-button")
+    WebElement addToCartButton;
+
+    @FindBy (id = "nav-cart")
+    WebElement cartButton;
     private final WebDriver driver;
     public Amazon(WebDriver driver) {
         this.driver = driver;
@@ -36,5 +47,20 @@ public class Amazon {
         return driver.getTitle().contains(productPage);
     }
 
+    public void clickProduct() {
+        randomProduct.click();
+    }
+
+    public void addToCart() {
+        addToCartButton.click();
+    }
+
+    public void clickCart() {
+        cartButton.click();
+    }
+
+    public boolean checkProductInCart() {
+        return isVisible(productInCart);
+    }
 
 }

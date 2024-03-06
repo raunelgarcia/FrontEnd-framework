@@ -1,6 +1,7 @@
 package tests.cucumber_steps;
 import io.cucumber.java.After;
 import io.cucumber.java.ParameterType;
+import io.cucumber.java.en.And;
 import pages.Amazon;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -42,6 +43,16 @@ public class AmazonSteps {
     @Then("I should be able to go to the {productString}")
     public void iShouldBeAbleToGoToTheProductPage(String productPage) {
         assertTrue(controller.iAmInPage(productPage));
+    }
+    @And("add a random product to the cart")
+    public void addARandomProductToTheCart() {
+        controller.clickProduct();
+        controller.addToCart();
+    }
+    @Then ("I should see the product in the cart")
+    public void iShouldSeeTheProductInTheCart() {
+        controller.clickCart();
+        assertTrue(controller.checkProductInCart());
     }
     @After
     public void closeDriver() {
