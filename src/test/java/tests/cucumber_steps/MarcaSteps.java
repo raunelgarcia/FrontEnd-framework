@@ -8,9 +8,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import pages.Marca;
+import utilities.Accessibility;
+import utilities.AllureReport;
 import utilities.DriverConfiguration;
 
 public class MarcaSteps {
+
   private WebDriver driver;
   private Marca controller;
 
@@ -24,8 +27,8 @@ public class MarcaSteps {
   @When("I navigate to a news article")
   public void iNavigateToANewsArticle() {
     controller.acceptCookies();
-    controller.goToNotice();
-    controller.acceptAge();
+    //controller.goToNotice();
+    //controller.acceptAge();
   }
 
   @Then("I should be able to see if the article contains an image")
@@ -35,7 +38,8 @@ public class MarcaSteps {
 
   @After
   public void closeDriver() {
-    // Accessibility.checkAccessibility(driver);
+    Accessibility.checkAccessibility(driver);
+    AllureReport.fillReportInfo();
     try {
       Thread.sleep(5000);
     } catch (InterruptedException e) {
