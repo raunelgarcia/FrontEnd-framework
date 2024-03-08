@@ -1,6 +1,9 @@
 package utilities;
 
+import static utilities.enums.ScreenResolution.getRandomResolution;
+
 import java.util.Objects;
+import org.openqa.selenium.Dimension;
 
 public class LocalEnviroment {
 
@@ -35,6 +38,10 @@ public class LocalEnviroment {
   public static boolean getAccessibility() {
     String accessibility = System.getenv("Accessibility");
     return accessibility != null && accessibility.equalsIgnoreCase("true");
+  }
+
+  public static String getResolution() {
+    return System.getenv("Resolution");
   }
 
   public static boolean isMobile() {
