@@ -19,14 +19,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 public class DriverConfiguration {
 
   public WebDriver getDriver() {
-    if (Objects.equals(LocalEnviroment.getPlatform(), "Web")) {
+    if (LocalEnviroment.getPlatform().equalsIgnoreCase("Web")) {
       WebDriver driver = configureWebDriver();
       Dimension windowResolution = ScreenResolution.getResolutionFromEnvVar();
       if (windowResolution != null)
         driver.manage().window().setSize(windowResolution);
       driver.get(LocalEnviroment.getUrl());
       return driver;
-    } else if (Objects.equals(LocalEnviroment.getPlatform(), "Android")) {
+    } else if (LocalEnviroment.getPlatform().equalsIgnoreCase("Android")) {
       try {
         URL url = new URL("http://127.0.0.1:4723");
         return new AndroidDriver(url, fillCapabilities());
@@ -42,6 +42,11 @@ public class DriverConfiguration {
   private WebDriver configureWebDriver() {
     WebDriver driver;
     String browser = LocalEnviroment.getBrowser();
+    if (browser == null) {
+      browser = "chrome";
+    } else {
+      browser = browser.toLowerCase();
+    }
     switch (browser) {
       case "edge":
         driver = new EdgeDriver();
