@@ -25,6 +25,7 @@ public class Marca extends BasePage {
   WebElement ageButton;
 
   private final WebDriver driver;
+  private final int newInt = 0;
 
   public Marca(WebDriver driver) {
     this.driver = driver;
