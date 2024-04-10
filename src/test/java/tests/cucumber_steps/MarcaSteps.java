@@ -1,15 +1,8 @@
 package tests.cucumber_steps;
 
-import static org.junit.Assert.assertTrue;
 import static pages.BasePage.waitSeconds;
 import static utilities.Constants.LOW_TIMEOUT;
 
-import io.cucumber.java.After;
-import io.cucumber.java.AfterStep;
-import io.cucumber.java.Scenario;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import pages.Marca;
 import utilities.Accessibility;
