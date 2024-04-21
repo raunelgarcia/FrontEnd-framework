@@ -8,10 +8,7 @@ import org.openqa.selenium.WebDriver;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.sql.Driver;
 import java.util.ArrayList;
-
-import utilities.DriverConfiguration;
 
 public class JSExecutor {
 

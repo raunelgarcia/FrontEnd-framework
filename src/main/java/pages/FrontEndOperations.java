@@ -3,8 +3,6 @@ package pages;
 import static java.lang.Math.floor;
 import static java.lang.Math.max;
 import static java.lang.System.currentTimeMillis;
-import static utilities.Constants.HIGH_TIMEOUT;
-import static utilities.Constants.LOW_TIMEOUT;
 
 import exceptions.FrameworkTimeoutException;
 import io.appium.java_client.AppiumDriver;
@@ -32,7 +30,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import utilities.*;
 import utilities.enums.Direction;
 
-public class BasePage {
+public class FrontEndOperations {
   private static <T> T doWithTryCatch(Supplier<T> action, T otherWise) {
     try {
       return action.get();
@@ -86,11 +84,11 @@ public class BasePage {
 
   public static void waitForVisibility(WebElement element, WebDriver driver) {
     waitFor(
-        ExpectedConditions.visibilityOf(element), driver, HIGH_TIMEOUT, ChronoUnit.SECONDS, true);
+        ExpectedConditions.visibilityOf(element), driver, Constants.HIGH_TIMEOUT, ChronoUnit.SECONDS, true);
   }
 
   public static void waitForAnimationToFinish() {
-    waitSeconds(LOW_TIMEOUT);
+    waitSeconds(Constants.LOW_TIMEOUT);
   }
 
   public static <K> void waitFor(

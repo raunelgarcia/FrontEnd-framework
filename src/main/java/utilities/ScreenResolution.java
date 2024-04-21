@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import org.openqa.selenium.Dimension;
 import org.yaml.snakeyaml.Yaml;
-import pages.BasePage;
+import pages.FrontEndOperations;
 
 public class ScreenResolution {
 
@@ -18,7 +18,7 @@ public class ScreenResolution {
     String browser = LocalEnviroment.getBrowser().toLowerCase();
     String envResolution = LocalEnviroment.getResolution();
 
-    if (BasePage.isNullOrEmpty(envResolution)) {
+    if (FrontEndOperations.isNullOrEmpty(envResolution)) {
       return new Dimension(1024, 768);
     }
 

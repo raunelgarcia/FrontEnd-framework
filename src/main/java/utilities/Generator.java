@@ -1,6 +1,6 @@
 package utilities;
 
-import pages.BasePage;
+import pages.FrontEndOperations;
 
 import static utilities.Constants.GMAIL_DOMAIN;
 
@@ -64,7 +64,7 @@ public class Generator {
   }
 
   public static <T> T getRandomElement(List<T> list) {
-    if (BasePage.isNullOrEmpty(list)) {
+    if (FrontEndOperations.isNullOrEmpty(list)) {
       throw new IllegalArgumentException("List cant be null or empty");
     }
     Random random = new Random();
